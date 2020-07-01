@@ -1,1 +1,3 @@
-# ski3mp3player
+# Ski3 Music Player
+
+## Supports .wav and .mp3 files
