@@ -5,7 +5,17 @@ import os
 from os import path
 import pygame
 
+
 pygame.init()
+
+play_list = list(
+
+)
+
+x = 0
+
+running = True
+
 
 def open():
     global audio_file_name, label_a
@@ -13,15 +23,24 @@ def open():
 	("MPEG-3 Files", ".mp3"),
 	("Microsoft Wave", ".wav"),
 	("All Files", "*.*")))
+    play_list.append(audio_file_name)
+    pygame.mixer.music.load ( play_list.pop() )
+    play_list.append(audio_file_name)
+    pygame.mixer.music.queue ( play_list.pop() )
     label_a.config(text=audio_file_name)
 
-x = 0
-
 def play():
-    global x
+    global x, running
     if x==0:
-        pygame.mixer.music.load(str(audio_file_name))
+        play_list.append(audio_file_name)
+        pygame.mixer.music.load ( play_list.pop() )
+        pygame.mixer.music.set_endevent ( pygame.USEREVENT )
         pygame.mixer.music.play()
+        while running:
+           for event in pygame.event.get():
+              if event.type == pygame.USEREVENT:
+                 if len ( playlist ) > 0:
+                    pygame.mixer.music.queue ( play_list.pop() )
     elif x==1:
         pygame.mixer.music.unpause()
         x = 0
